@@ -1,0 +1,84 @@
+---
+title: "cor"
+author: '20307100120'
+date: '2022-11-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+stocksplit=read.csv('stocksplit_af.csv',sep=',')
+df=read.csv('stocksplit_cl.csv',sep=',')
+```
+
+# 第三题
+
+```{r}
+cor(stocksplit$f,stocksplit$ret_t)
+cor.test(stocksplit$f,stocksplit$ret_t)
+cor(stocksplit$f,stocksplit$abret_t)
+cor.test(stocksplit$f,stocksplit$abret_t)
+```
+结论：正相关，相关性显著
+
+# 第四题
+## age group：
+```{r}
+highage=df[df$a_index=='High_age',]
+cor(highage$f,highage$ret_t)
+cor.test(highage$f,highage$ret_t)
+cor(highage$f,highage$abret_t)
+cor.test(highage$f,highage$abret_t)
+```
+结论：正相关，但是相关性不显著
+
+```{r}
+lowage=df[df$a_index=='Low_age',]
+cor(lowage$f,lowage$ret_t)
+cor.test(lowage$f,lowage$ret_t)
+cor(lowage$f,lowage$abret_t)
+cor.test(lowage$f,lowage$abret_t)
+```
+结论：正相关，但是相关性不显著
+
+```{r}
+t.test(ret_t ~ a_index, data=df)
+t.test(abret_t ~ a_index, data=df)
+```
+两样本 t-test
+结论：highage和lowage组的ret和abret都有显著差异
+
+## price group：
+```{r}
+highprice=df[df$p_index=='High_price',]
+cor(highprice$f,highprice$ret_t)
+cor.test(highprice$f,highprice$ret_t)
+cor(highprice$f,highprice$abret_t)
+cor.test(highprice$f,highprice$abret_t)
+```
+结论：正相关，相关性不显著
+
+```{r}
+lowprice=df[df$p_index=='Low_price',]
+cor(lowprice$f,lowprice$ret_t)
+cor.test(lowprice$f,lowprice$ret_t)
+cor(lowprice$f,lowprice$abret_t)
+cor.test(lowprice$f,lowprice$abret_t)
+```
+结论：正相关，相关性显著
+
+```{r}
+t.test(ret_t ~ p_index, data=df)
+t.test(abret_t ~ p_index, data=df)
+```
+两样本 t-test
+结论：没显著差异
+
+# 第五题
+
+```{r}
+cor(stocksplit$ret_t,stocksplit$ret_t30,use = 'pairwise.complete.obs')
+cor.test(stocksplit$ret_t,stocksplit$ret_t30)
+cor(stocksplit$abret_t,stocksplit$ret_t30,use = 'pairwise.complete.obs')
+cor.test(stocksplit$abret_t,stocksplit$ret_t30)
+```
+结论：负相关，和除权当日收益率相关性显著，超额收益率不显著
